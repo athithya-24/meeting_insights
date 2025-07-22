@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meeting Insights Pro</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+ <style>
+        :root {
+            /* Primary Brand Colors - Modern Tech Gradient */
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --primary-color: #667eea;
+            --primary-dark: #5a67d8;
+            --primary-light: #7c3aed;
+            
+            /* Advanced Color Palette */
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a2e;
+            --bg-tertiary: #16213e;
+            --bg-glass: rgba(255, 255, 255, 0.05);
+            --bg-glass-strong: rgba(255, 255, 255, 0.1);
+            
+            /* Text Colors */
+            --text-primary: #ffffff;
+            --text-secondary: #e2e8f0;
+            --text-muted: #94a3b8;
+            --text-accent: #667eea;
+            
+            /* Status Colors */
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --info: #3b82f6;
+            
+            /* Shadows & Effects */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+            --shadow-glow: 0 0 20px rgba(102, 126, 234, 0.3);
+            
+            /* Border Radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            
+            /* Transitions */
+            --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-20px, -10px) rotate(1deg); }
+            66% { transform: translate(20px, 10px) rotate(-1deg); }
+        }
+
+        /* Glass Morphism Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* Premium Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: var(--primary-gradient);
+            border-radius: 2px;
+            animation: headerGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes headerGlow {
+            0% { box-shadow: 0 0 5px rgba(102, 126, 234, 0.5); }
+            100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.8); }
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            text-shadow: 0 0 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .header h1 i {
+            margin-right: 20px;
+            color: var(--primary-color);
+            filter: drop-shadow(0 0 10px rgba(102, 126, 234, 0.6));
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        /* Main Content Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        /* Advanced Control Panel */
+        .control-panel {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-xl);
+            padding: 30px;
+            box-shadow: var(--shadow-xl);
+            position: sticky;
+            top: 20px;
+            transition: var(--transition-smooth);
+        }
+
+        .control-panel:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl), var(--shadow-glow);
+        }
+
+        /* Recording Status with Pulse Animation */
+        .recording-status {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--bg-glass-strong);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .status-indicator {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            position: relative;
+            transition: var(--transition-normal);
+        }
+
+        .status-indicator.ready {
+            background: var(--success);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.6);
+        }
+
+        .status-indicator.recording {
+            background: var(--error);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .status-indicator.processing {
+            background: var(--warning);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+            }
+            50% { 
+                transform: scale(1.2);
+                box-shadow: 0 0 25px rgba(239, 68, 68, 0.8);
+            }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        #statusText {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        /* Audio Level Visualizer */
+        .audio-level {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .audio-level-bar {
+            height: 8px;
+            background: linear-gradient(90deg, var(--success) 0%, var(--warning) 70%, var(--error) 100%);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.1s ease-out;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Timer Display */
+        .timer {
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-accent);
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            box-shadow: inset 0 0 20px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Premium Recording Controls */
+        .recording-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 16px 24px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition-normal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--error) 0%, #dc2626 100%);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg), 0 0 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-glass-strong);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Advanced Stats Grid */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-accent);
+            margin-bottom: 5px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Results Section */
+        .results-section {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            min-height: 600px;
+        }
+
+        /* Premium Tab Navigation */
+        .results-tabs {
+            display: flex;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px 24px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-normal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .tab::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .tab.active::before {
+            transform: scaleX(1);
+        }
+
+        .tab.active {
+            color: var(--text-primary);
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .tab:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            padding: 30px;
+            min-height: 500px;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: var(--bg-glass-strong);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .content-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .content-card h3 i {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(102, 126, 234, 0.2);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        .loading p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Content Text */
+        .content-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            background: var(--bg-secondary);
+            padding: 25px;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .content-text::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .content-text::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+            border-radius: 4px;
+        }
+
+        .content-text::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        .content-text::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .export-options {
+            display: flex;
+            gap: 8px;
+            margin-left: auto;
+        }
+
+        .export-btn {
+            padding: 10px 16px !important;
+            font-size: 0.9rem !important;
+        }
+
+        /* History Section */
+        .history-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .history-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            background: var(--bg-secondary);
+            padding: 15px;
+            border-radius: var(--radius-md);
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: var(--transition-normal);
+        }
+
+        .history-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .history-item-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .history-item-meta {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: 0;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-glass);
+        }
+
+        .modal-header h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 2rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition-normal);
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .control-panel {
+                position: static;
+                padding: 20px;
+            }
+
+            .recording-controls {
+                flex-direction: column;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .results-tabs {
+                flex-wrap: wrap;
+            }
+
+            .tab {
+                min-width: 120px;
+                font-size: 0.9rem;
+                padding: 15px 12px;
+            }
+
+            .tab-content {
+                padding: 20px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .export-options {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+
+        /* Accessibility Improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus States */
+        .btn:focus,
+        .tab:focus,
+        .modal-close:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* High Contrast Mode */
+        @media (prefers-contrast: high) {
+            :root {
+                --bg-primary: #000000;
+                --bg-secondary: #111111;
+                --text-primary: #ffffff;
+                --text-secondary: #ffffff;
+            }
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1><i class="fas fa-microphone-alt"></i> Meeting Insights Pro</h1>
+      <p>AI-powered meeting transcription and analysis</p>
+    </div>
+
+    <div class="main-content">
+      <div class="control-panel">
+        <div class="recording-status">
+          <div class="status-indicator ready" id="statusIndicator"></div>
+          <span id="statusText">Ready to record</span>
+        </div>
+
+        <div class="audio-level">
+          <div class="audio-level-bar" id="audioLevel"></div>
+        </div>
+
+        <div class="timer" id="timer">00:00</div>
+
+        <div class="recording-controls">
+          <button class="btn btn-primary" id="startBtn">
+            <i class="fas fa-play"></i>
+            Start Recording
+          </button>
+          <button class="btn btn-danger" id="stopBtn" disabled>
+            <i class="fas fa-stop"></i>
+            Stop & Analyze
+          </button>
+        </div>
+
+        <div class="stats" id="stats">
+          <div class="stat-card">
+            <div class="stat-value" id="wordCount">0</div>
+            <div class="stat-label">Words</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="duration">0s</div>
+            <div class="stat-label">Duration</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="sentimentScore">0</div>
+            <div class="stat-label">Sentiment</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="actionItems">0</div>
+            <div class="stat-label">Actions</div>
+          </div>
+        </div>
+
+        <div class="history-section" id="historySection" style="display: none;">
+          <h3 style="margin-bottom: 15px; color: var(--dark);">
+            <i class="fas fa-history"></i> Meeting History
+          </h3>
+          <div id="historyList" class="history-list"></div>
+        </div>
+      </div>
+
+      <div class="results-section">
+        <div class="results-tabs">
+          <button class="tab active" onclick="switchTab('transcript')">
+            <i class="fas fa-file-alt"></i> Transcript
+          </button>
+          <button class="tab" onclick="switchTab('summary')">
+            <i class="fas fa-clipboard-list"></i> Summary
+          </button>
+          <button class="tab" onclick="switchTab('insights')">
+            <i class="fas fa-lightbulb"></i> Insights
+          </button>
+          <button class="tab" onclick="switchTab('history')">
+            <i class="fas fa-history"></i> History
+          </button>
+        </div>
+
+        <div class="tab-content active" id="transcript-tab">
+          <div class="content-card">
+            <h3><i class="fas fa-file-alt"></i> Meeting Transcript</h3>
+            <div class="loading" id="transcriptLoading">
+              <div class="spinner"></div>
+              <p>Transcribing audio...</p>
+            </div>
+            <div class="content-text" id="transcript">
+              <div class="empty-state">
+                <i class="fas fa-microphone-slash"></i>
+                <p>No transcript available yet. Start recording to see the transcription here.</p>
+              </div>
+            </div>
+            <div class="action-buttons" id="transcriptActions">
+              <button class="btn btn-secondary" onclick="copyToClipboard('transcript')">
+                <i class="fas fa-copy"></i> Copy
+              </button>
+              <button class="btn btn-secondary" onclick="downloadText('transcript', 'transcript.txt')">
+                <i class="fas fa-download"></i> Download
+              </button>
+              <div class="export-options">
+                <button class="btn btn-secondary export-btn" onclick="exportContent('transcript', 'pdf')">
+                  <i class="fas fa-file-pdf"></i> PDF
+                </button>
+                <button class="btn btn-secondary export-btn" onclick="exportContent('transcript', 'docx')">
+                  <i class="fas fa-file-word"></i> DOCX
+                </button>
+                <button class="btn btn-secondary export-btn" onclick="exportContent('transcript', 'srt')">
+                  <i class="fas fa-file-alt"></i> SRT
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="summary-tab">
+          <div class="content-card">
+            <h3><i class="fas fa-clipboard-list"></i> Meeting Summary</h3>
+            <div class="loading" id="summaryLoading">
+              <div class="spinner"></div>
+              <p>Generating summary...</p>
+            </div>
+            <div class="content-text" id="summary">
+              <div class="empty-state">
+                <i class="fas fa-clipboard"></i>
+                <p>No summary available yet. Complete a recording to get an AI-generated summary.</p>
+              </div>
+            </div>
+            <div class="action-buttons" id="summaryActions">
+              <button class="btn btn-secondary" onclick="copyToClipboard('summary')">
+                <i class="fas fa-copy"></i> Copy
+              </button>
+              <button class="btn btn-secondary" onclick="downloadText('summary', 'summary.txt')">
+                <i class="fas fa-download"></i> Download
+              </button>
+              <div class="export-options">
+                <button class="btn btn-secondary export-btn" onclick="exportContent('summary', 'pdf')">
+                  <i class="fas fa-file-pdf"></i> PDF
+                </button>
+                <button class="btn btn-secondary export-btn" onclick="exportContent('summary', 'docx')">
+                  <i class="fas fa-file-word"></i> DOCX
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="insights-tab">
+          <div class="content-card">
+            <h3><i class="fas fa-lightbulb"></i> Key Insights</h3>
+            <div class="content-text" id="insights">
+              <div class="empty-state">
+                <i class="fas fa-chart-line"></i>
+                <p>Insights will be generated after processing your meeting recording.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="history-tab">
+          <div class="content-card">
+            <h3><i class="fas fa-history"></i> Meeting History</h3>
+            <div class="content-text" id="historyContent">
+              <div class="empty-state">
+                <i class="fas fa-history"></i>
+                <p>Your meeting history will appear here. Recordings are automatically saved.</p>
+              </div>
+              <div id="historyListFull"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for viewing history items -->
+  <div class="modal" id="historyModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Meeting Details</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="/static/scripts1.js"></script>
+</body>
+</html>
