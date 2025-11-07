@@ -43,7 +43,7 @@ except ImportError:
     logging.warning("Visualization libraries not available. Charts will be disabled.")
 
 # Manually append the ffmpeg path so Python can access it
-os.environ["PATH"] += os.pathsep + r"C:\Users\Athithya\Downloads\ffmpeg-7.1.1-essentials_build\ffmpeg-7.1.1-essentials_build\bin"
+os.environ["PATH"] += os.pathsep + r"C:\Users\athit\Downloads\ffmpeg-8.0-essentials_build\ffmpeg-8.0-essentials_build\bin"
 
 # Load .env file
 dotenv.load_dotenv()
