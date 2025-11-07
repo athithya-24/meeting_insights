@@ -1,0 +1,10 @@
+Flask 
+python-dotenv 
+openai-whisper 
+python-docx 
+google-generativeai 
+reportlab 
+matplotlib 
+wordcloud 
+numpy 
+Werkzeug
